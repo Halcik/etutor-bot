@@ -1,13 +1,14 @@
 import speech_recognition as sr
 import time
 import pyautogui as pg
-#PyAudio required
+#PyAudio and Interned connection required
 
 r = sr.Recognizer()
 
 def get_text():
     with sr.Microphone() as source:
         try:
+            r.adjust_for_ambient_noise(source)
             print("    Nasłuchuje...")
             audio = r.listen(source)
             text = r.recognize_google(audio, language='pl-PL')
@@ -21,21 +22,20 @@ def get_text():
 
 while True:
     try:
-        txt = get_text().lower().split()
-        if txt == 0:
-            raise Exception(0)
+        txt = get_text().lower()
         print(txt)
 
-        if txt[0] == "koniec":
+        if "koniec" in txt:
             break
-        elif txt[0] == "sprawdzam":
+        elif "sprawdz" in txt:
             pg.press('enter')
-        elif txt[0] == "źle":
+        elif "źle" in txt:
             pg.press('1')
-        elif txt[0]=="średnio":
+        elif "średn" in txt:
             pg.press('2')
-        elif txt[0]=="świetnie":
+        elif "świetn" in txt:
             pg.press('3')
-        time.sleep(2)
+        time.sleep(1.2)
+
     except:
         pass
